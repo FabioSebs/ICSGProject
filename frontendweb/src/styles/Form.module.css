@@ -1,0 +1,71 @@
+.formDiv {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 350px;
+    width: 200px;
+    background-color: white;
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    margin: auto;
+    border-radius: 30px;
+    border: 1px solid black
+}
+
+.adminDiv {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    bottom: 10px;
+}
+
+.adminDiv u {
+    font-style: oblique;
+}
+
+.formField {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.formField input {
+    text-align: center;
+}
+
+.signupButton {
+    padding: 5px 8px;
+    background-color: lightgreen;
+    border-radius: 30px;
+}
+
+.signupButton:hover {
+    transition: all 300ms;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.loginButton {
+    padding: 5px 8px;
+    background-color: lightblue;
+    border-radius: 30px;
+}
+
+.loginButton:hover {
+    transition: all 300ms;
+    transition-timing-function: ease-in-out;
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.formButtons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100px;
+    gap: 10px;
+}

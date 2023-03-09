@@ -1,0 +1,25 @@
+.actionDiv {
+    height: 100px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.actionDiv:hover { 
+    transition: all 500ms;
+    cursor: pointer;
+    transition-timing-function: ease-in-out;
+    transform: scale(1.1);
+}
+
+.actionDiv h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.actionDiv h3 {
+    font-size: 12px;
+    font-style: italic;
+}

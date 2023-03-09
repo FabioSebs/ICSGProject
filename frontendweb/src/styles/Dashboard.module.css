@@ -1,0 +1,52 @@
+.dashboardDiv {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.innerDashboard {
+    height: 90%;
+    width: 90%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    position: relative;
+}
+
+.userInfo {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userInfo h1 {
+    text-transform: uppercase;
+}
+
+.userActions {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.userActions >* {
+    flex: 1 1;
+}
+
+.backArrow {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.backArrow:hover {
+    cursor: pointer;
+}
