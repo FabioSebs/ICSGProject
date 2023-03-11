@@ -2,9 +2,10 @@ import React, { FunctionComponent, useState, useEffect, MouseEvent } from 'react
 import styles from "../styles/Form.module.css"
 // to read data and change data
 import { useSelector, useDispatch } from 'react-redux'
-import { addPassword, addPhone, addUser } from "../redux/user"
+import { addPassword, addPhone, addUser, addAdmin } from "../redux/user"
 import { redirect } from 'next/navigation'
 import Router from 'next/router'
+import Splashscreen from './Splashscreen'
 
 const Form: FunctionComponent = () => {
   const [type, setType] = useState<boolean>(true)
@@ -48,28 +49,49 @@ const Form: FunctionComponent = () => {
         })
       };
 
-      fetch('http://localhost:8080/login', requestOptions)
-        .then(response => console.log(response.json()))
-        .then(_ => { redirect('/dashboard') })
+      // fetch('http://localhost:8080/login', requestOptions)
+      //   .then(response => console.log(response.json()))
+      //   .then(_ => { redirect('/dashboard') })
+      Router.push("/dashboard")
     }
   }
 
+  function handleAdmin() {
+    // Toggle Form
+    if (type) {
+      setType(type => !type)
+      // Change Admin Credentials
+      dispatch(addUser("admin"))
+      dispatch(addPassword("password"))
+      dispatch(addAdmin(true))
+      return
+    }
+
+    // Change Admin Credentials
+    dispatch(addUser("admin"))
+    dispatch(addPassword("password"))
+    dispatch(addAdmin(true))
+    // Setup Request
+  }
+
+
   return (
     <>
+      <Splashscreen />
       <form className={styles.formDiv} onSubmit={handleSubmit}>
         <div className={styles.formField}>
           <label htmlFor="">Username</label>
-          <input type="text" onChange={e => dispatch(addUser(e.target.value))} />
+          <input type="text" value={user.username} onChange={e => dispatch(addUser(e.target.value))} />
         </div>
 
         <div className={styles.formField}>
           <label htmlFor="">Password</label>
-          <input type="password" onChange={e => { dispatch(addPassword(e.target.value)) }} />
+          <input type="password" value={user.password} onChange={e => { dispatch(addPassword(e.target.value)) }} />
         </div>
 
         {type && <div className={styles.formField}>
           <label htmlFor="">Phone Number</label>
-          <input type="text" onChange={e => { dispatch(addPhone(e.target.value)) }} />
+          <input type="text" value={user.phone} onChange={e => { dispatch(addPhone(e.target.value)) }} />
         </div>}
 
         <div className={styles.formButtons}>
@@ -79,7 +101,7 @@ const Form: FunctionComponent = () => {
 
       </form>
 
-      <div className={styles.adminDiv}>
+      <div className={styles.adminDiv} onClick={() => handleAdmin()}>
         <h3>want to try being an admin? <u>Try it Out!</u></h3>
       </div>
     </>

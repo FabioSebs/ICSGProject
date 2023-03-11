@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction} from "@reduxjs/toolkit"
 
 export interface User {
+    admin: boolean
     username: string
     password: string
     phone: string
@@ -14,7 +15,8 @@ const userState : UserReduxState = {
     value: {
         username: "",
         password: "",
-        phone: ""
+        phone: "",
+        admin: false
     }
 }
 
@@ -33,9 +35,13 @@ export const userSlice = createSlice({
         // Add Phone
         addPhone(state : UserReduxState = userState, action : PayloadAction<any>){
             state.value = {...state.value, phone: action.payload}
+        },
+        // Add Admin
+        addAdmin(state: UserReduxState = userState, action: PayloadAction<any>){
+            state.value = {...state.value, admin: action.payload}
         }
     }
 })
 
-export const {addPassword, addPhone, addUser} = userSlice.actions 
+export const {addPassword, addPhone, addUser, addAdmin} = userSlice.actions 
 export default userSlice.reducer

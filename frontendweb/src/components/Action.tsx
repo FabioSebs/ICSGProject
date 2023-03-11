@@ -17,7 +17,7 @@ const Action: FunctionComponent<Props> = ({action, desc, color}) => {
     },[])
 
     return (
-        <button ref={actionDiv} className={styles.actionDiv} onClick={()=>{Router.push(`/${action}`)}}>
+        <button ref={actionDiv} className={styles.actionDiv} onClick={()=>{Router.push(`dashboard/${action}`)}}>
             <h1>{action}</h1>
             <h3>{desc}</h3>
         </button>

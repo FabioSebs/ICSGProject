@@ -9,8 +9,8 @@ const Splashscreen : FunctionComponent = () => {
 
     useEffect(()=>{
         setTimeout(()=>{
-            el.current.style.display = "none"
-            el.current.style.visibility = "hidden"
+            el.current!.style.display = "none"
+            el.current!.style.visibility = "hidden"
         }, 5000)
     }, [])
 

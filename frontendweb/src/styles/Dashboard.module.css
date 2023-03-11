@@ -38,7 +38,7 @@
 }
 
 .userActions >* {
-    flex: 1 1;
+    flex: 1 1 200px;
 }
 
 .backArrow {
