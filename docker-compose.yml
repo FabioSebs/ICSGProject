@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  website:
+    build: ./frontendweb
+    container_name: website
+    ports:
+      - "3000:80" 
+  backend:
+    build: ./backendgo
+    container_name: backend
+    ports:
+      - "8080:80"
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "8000:80"
+    environment:
+      - SERVER_ADDRESS=localhost
+      - BACKEND_ADDRESS=backend
+      - FRONTEND_ADDRESS=website
+    depends_on:
+      - website
+      - backend

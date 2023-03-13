@@ -36,7 +36,7 @@
     overflow-y: scroll;
 }
 
-.actionTable:nth-child(even) .actionTableRows:nth-child(even) {
+.actionTableRows:nth-child(even) {
     background-color: rgb(224, 224, 224);
 }
 

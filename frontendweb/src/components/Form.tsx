@@ -6,11 +6,15 @@ import { addPassword, addPhone, addUser, addAdmin } from "../redux/user"
 import { redirect } from 'next/navigation'
 import Router from 'next/router'
 import Splashscreen from './Splashscreen'
+import { useCookies } from 'react-cookie'
+import axios from "axios"
 
 const Form: FunctionComponent = () => {
   const [type, setType] = useState<boolean>(true)
   const user: any = useSelector((state: any) => state.user.value)
   const dispatch = useDispatch()
+  const [message, setMessage] = useState<boolean>(false)
+  const [cookies, setCookie, removeCookie] = useCookies(['username']);
 
   function handleSubmit(event: React.FormEvent): void {
     event.preventDefault()
@@ -20,40 +24,38 @@ const Form: FunctionComponent = () => {
       return
     }
 
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user)
-    };
-
-    Router.push("/dashboard")
-
-    // fetch('http://localhost:8080/signup', requestOptions)
-    //   .then(response => console.log(response.json()))
-    //   .then(() => { redirect('/dashboard') })
-
+    axios.post("http://localhost:8080/users/add", {
+      "username": user.username,
+      "password": user.password,
+      "phone": user.phone
+    })
+      .then(_ => {
+        Router.push("/dashboard")
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   function handleLogin(event: MouseEvent): void {
+    setCookie("username", user.username, { path: '/' });
+
     if (type) {
       setType(type => !type)
       return
     }
-    else {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: user.username,
-          password: user.password
-        })
-      };
+    axios.post("http://localhost:8080/users/login", {
+      "username": user.username,
+      "password": user.password
+    })
+      .then(_ => Router.push("/dashboard"))
+      .catch(_ => setMessage(true))
+      .finally(() => {
+        setTimeout(() => {
+          setMessage(false)
+        }, 2000)
+      })
 
-      // fetch('http://localhost:8080/login', requestOptions)
-      //   .then(response => console.log(response.json()))
-      //   .then(_ => { redirect('/dashboard') })
-      Router.push("/dashboard")
-    }
   }
 
   function handleAdmin() {
@@ -93,6 +95,8 @@ const Form: FunctionComponent = () => {
           <label htmlFor="">Phone Number</label>
           <input type="text" value={user.phone} onChange={e => { dispatch(addPhone(e.target.value)) }} />
         </div>}
+
+        {message && <p style={{ color: "red", fontSize: 10, textAlign: 'center' }}>Error Logging In Please Try Again!</p>}
 
         <div className={styles.formButtons}>
           <button type='submit' className={styles.signupButton}>Signup</button>
