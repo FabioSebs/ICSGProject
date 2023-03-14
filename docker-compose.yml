@@ -41,7 +41,7 @@ services:
     container_name: nginx
     restart: always
     ports:
-      - "8000:80"
+      - "80:80"
     environment:
       - SERVER_ADDRESS=localhost
       - BACKEND_ADDRESS=backend

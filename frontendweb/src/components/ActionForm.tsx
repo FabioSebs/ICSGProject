@@ -103,7 +103,7 @@ function clearFormInputs(setFormInputs: React.Dispatch<React.SetStateAction<User
 const GetAllUsers = (setAllUsers: React.Dispatch<any>) => {
     const userlist: User[] | null = []
 
-    axios.get("http://localhost:8000/users/all")
+    axios.get("http://localhost:80/users/all")
         .then((res) => {
             res.data?.forEach((e: any) => {
                 let user: User = { admin: false, password: e.password, mobile: e.mobile, username: e.username }
@@ -131,7 +131,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
         e.preventDefault()
 
         // Handle Post Request
-        axios.post("http://localhost:8000/users/add", {
+        axios.post("http://localhost:80/users/add", {
             "username": formInput.username,
             "password": formInput.password,
             "mobile": formInput.mobile
@@ -146,7 +146,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
     function handleDeleteUser(e: React.SyntheticEvent) {
         e.preventDefault()
 
-        axios.delete("http://localhost:8000/users/delete", { data: { "username": formInput.username } })
+        axios.delete("http://localhost:80/users/delete", { data: { "username": formInput.username } })
             .then(e => console.log(e.data))
             .then(_ => clearFormInputs(setFormInput))
             .catch(e => console.log(e))
@@ -156,7 +156,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
 
     function handleUpdateUser(e: React.SyntheticEvent) {
         e.preventDefault()
-        axios.patch(`http://localhost:8000/users/update/user/`, {
+        axios.patch(`http://localhost:80/users/update/user/`, {
             "original": modifyUser,
             "username": formInput.username,
             "password": formInput.password,
@@ -169,7 +169,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
 
     function handleUpdateMobile(e: React.SyntheticEvent) {
         e.preventDefault()
-        axios.patch(`http://localhost:8000/users/update/mobile/${cookies.username}`, {
+        axios.patch(`http://localhost:80/users/update/mobile/${cookies.username}`, {
             "mobile": formInput.mobile
         })
             .then(_ => window.location.reload())

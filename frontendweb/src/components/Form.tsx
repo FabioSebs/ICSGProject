@@ -29,7 +29,7 @@ const Form: FunctionComponent = () => {
       return
     }
 
-    axios.post("http://localhost:8000/users/add", {
+    axios.post("http://localhost:80/users/add", {
       "username": user.username,
       "password": user.password,
       "mobile": user.mobile
@@ -49,7 +49,7 @@ const Form: FunctionComponent = () => {
       setType(type => !type)
       return
     }
-    axios.post("http://localhost:8000/users/login", {
+    axios.post("http://localhost:80/users/login", {
       "username": user.username,
       "password": user.password
     })
