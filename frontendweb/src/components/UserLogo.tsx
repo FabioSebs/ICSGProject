@@ -25,11 +25,11 @@ const UserLogo: FunctionComponent = () => {
 
             <div className={styles.userInfo}>
                 <h1>{user.username}</h1>
-                <h1>{user.phone}</h1>
+                <h1>{user.mobile}</h1>
             </div>
 
             <div className={styles.userActions}>
-                {!admin && <Action action='phone' color='yellow' desc='change mobile phone number'/>}
+                {!admin && <Action action='mobile' color='yellow' desc='change mobile phone number'/>}
                 {admin && <Action action='add' color='blue' desc='add user to system'/>}
                 {admin && <Action action='delete' color='red' desc='delete user to system'/>}
                 {admin && <Action action='modify' color='green' desc='modify user to system'/>}

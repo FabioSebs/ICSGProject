@@ -104,7 +104,7 @@ func (c *Controllers) MODIFYUser(ctx *gin.Context) {
 	}
 	c.Crud.Model.Username = reqBody.Username
 	c.Crud.Model.Password = reqBody.Password
-	c.Crud.Model.Phone = reqBody.Phone
+	c.Crud.Model.Mobile = reqBody.Phone
 
 	if err := c.Crud.ModifyUser(reqBody.Original); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})

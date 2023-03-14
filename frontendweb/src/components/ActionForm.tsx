@@ -32,7 +32,7 @@ function renderActions(action: string, admin: boolean, setAdmin: React.Dispatch<
 
                 <div className={styles.actionEntry}>
                     <label>Add Mobile</label>
-                    <input type="text" onChange={e => setFormInput({ ...form, phone: e.target.value })} />
+                    <input type="text" onChange={e => setFormInput({ ...form, mobile: e.target.value })} />
                 </div>
 
                 {/* <div className={styles.adminInputDiv}>
@@ -72,17 +72,17 @@ function renderActions(action: string, admin: boolean, setAdmin: React.Dispatch<
 
                 <div className={styles.actionEntry}>
                     <label>Change Mobile Number</label>
-                    <input type="text" onChange={e => setFormInput({ ...form, phone: e.target.value })} />
+                    <input type="text" onChange={e => setFormInput({ ...form, mobile: e.target.value })} />
                 </div>
 
                 <button type="submit" className={styles.submitButton}>{action}</button>
             </>
 
-        case 'phone':
+        case 'mobile':
             return <>
                 <div className={styles.actionEntry}>
                     <label>Change Mobile Number</label>
-                    <input type="text" onChange={e => setFormInput({ ...form, phone: e.target.value })} />
+                    <input type="text" onChange={e => setFormInput({ ...form, mobile: e.target.value })} />
                 </div>
 
                 <button type="submit" className={styles.submitButton}>{action}</button>
@@ -95,7 +95,7 @@ function clearFormInputs(setFormInputs: React.Dispatch<React.SetStateAction<User
     setFormInputs({
         username: "",
         password: "",
-        phone: "",
+        mobile: "",
         admin: false
     })
 }
@@ -103,10 +103,10 @@ function clearFormInputs(setFormInputs: React.Dispatch<React.SetStateAction<User
 const GetAllUsers = (setAllUsers: React.Dispatch<any>) => {
     const userlist: User[] | null = []
 
-    axios.get("http://localhost:8080/users/all")
+    axios.get("http://localhost:8000/users/all")
         .then((res) => {
             res.data?.forEach((e: any) => {
-                let user: User = { admin: false, password: e.password, phone: e.phone, username: e.username }
+                let user: User = { admin: false, password: e.password, mobile: e.mobile, username: e.username }
                 userlist.push(user)
             })
             setAllUsers(userlist)
@@ -116,7 +116,7 @@ const GetAllUsers = (setAllUsers: React.Dispatch<any>) => {
 const ActionForm: FunctionComponent<Props> = ({ action }) => {
     const [completedMsg, setCompletedMsg] = useState<boolean>(false)
     const [allUsers, setAllUsers] = useState<User[] | any>([])
-    const [formInput, setFormInput] = useState<User>({ admin: false, password: "", phone: "", username: "" })
+    const [formInput, setFormInput] = useState<User>({ admin: false, password: "", mobile: "", username: "" })
     const [admin, setAdmin] = useState<boolean>(false)
     const [modifyUser, setModifyUser] = useState<string>("");
     const [cookies, setCookie] = useCookies(['username']);
@@ -131,10 +131,10 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
         e.preventDefault()
 
         // Handle Post Request
-        axios.post("http://localhost:8080/users/add", {
+        axios.post("http://localhost:8000/users/add", {
             "username": formInput.username,
             "password": formInput.password,
-            "phone": formInput.phone
+            "mobile": formInput.mobile
         })
             .then((_) => window.location.reload())
             .then(_ => clearFormInputs(setFormInput))
@@ -146,7 +146,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
     function handleDeleteUser(e: React.SyntheticEvent) {
         e.preventDefault()
 
-        axios.delete("http://localhost:8080/users/delete", { data: { "username": formInput.username } })
+        axios.delete("http://localhost:8000/users/delete", { data: { "username": formInput.username } })
             .then(e => console.log(e.data))
             .then(_ => clearFormInputs(setFormInput))
             .catch(e => console.log(e))
@@ -156,21 +156,21 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
 
     function handleUpdateUser(e: React.SyntheticEvent) {
         e.preventDefault()
-        axios.patch(`http://localhost:8080/users/update/user/`, {
+        axios.patch(`http://localhost:8000/users/update/user/`, {
             "original": modifyUser,
             "username": formInput.username,
             "password": formInput.password,
-            "phone": formInput.phone
+            "mobile": formInput.mobile
         })
             .then(_ => window.location.reload())
             .then(_ => clearFormInputs(setFormInput))
             .catch(e => console.log(e))
     }
 
-    function handleUpdatePhone(e: React.SyntheticEvent) {
+    function handleUpdateMobile(e: React.SyntheticEvent) {
         e.preventDefault()
-        axios.patch(`http://localhost:8080/users/update/phone/${cookies.username}`, {
-            "phone": formInput.phone
+        axios.patch(`http://localhost:8000/users/update/mobile/${cookies.username}`, {
+            "mobile": formInput.mobile
         })
             .then(_ => window.location.reload())
             .then(_ => clearFormInputs(setFormInput))
@@ -183,7 +183,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
                 <Image alt='back' src="/back.svg" width={30} height={30} />
             </div>
             {/* Form For Action */}
-            <form className={styles.actionDivForm} onSubmit={(e: React.SyntheticEvent) => { action == 'add' ? handleAddUser(e) : action == 'delete' ? handleDeleteUser(e) : action == 'modify' ? handleUpdateUser(e) : action == 'phone' ? handleUpdatePhone(e) : undefined }}>
+            <form className={styles.actionDivForm} onSubmit={(e: React.SyntheticEvent) => { action == 'add' ? handleAddUser(e) : action == 'delete' ? handleDeleteUser(e) : action == 'modify' ? handleUpdateUser(e) : action == 'mobile' ? handleUpdateMobile(e) : undefined }}>
                 {renderActions(action, admin, setAdmin, setFormInput, formInput, setModifyUser)}
             </form>
 
@@ -197,12 +197,12 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
                 </div>
 
                 {/* Table Data */}
-                {action == 'phone' ? allUsers.filter((el: any) => el.username == cookies.username).map((el: any) => {
+                {action == 'mobile' ? allUsers.filter((el: any) => el.username == cookies.username).map((el: any) => {
                     return (
                         <div className={styles.actionTableRows} key={el.username}>
                             <p>{el.username}</p>
                             <p>{el.password}</p>
-                            <p>{el.phone}</p>
+                            <p>{el.mobile}</p>
                         </div>
                     )
                 }) : allUsers.map((el: any) => {
@@ -210,7 +210,7 @@ const ActionForm: FunctionComponent<Props> = ({ action }) => {
                         <div className={styles.actionTableRows} key={el.username}>
                             <p>{el.username}</p>
                             <p>{el.password}</p>
-                            <p>{el.phone}</p>
+                            <p>{el.mobile}</p>
                         </div>
                     )
                 })}

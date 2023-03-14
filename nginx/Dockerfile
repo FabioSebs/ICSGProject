@@ -4,9 +4,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 USER root
 
-COPY ./entryPoint.sh /
-RUN chmod +x entryPoint.sh
+COPY . .
 
-ENTRYPOINT ["./entryPoint.sh"]
+RUN sed -i "s/SERVER_ADDRESS/$SERVER_ADDRESS/g" /etc/nginx/nginx.conf
+RUN sed -i "s/SERVER_ADDRESS/$FRONTEND_ADDRESS/g" /etc/nginx/nginx.conf
+RUN sed -i "s/SERVER_ADDRESS/$BACKEND_ADDRESS/g" /etc/nginx/nginx.conf
+
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

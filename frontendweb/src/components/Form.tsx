@@ -16,18 +16,23 @@ const Form: FunctionComponent = () => {
   const [message, setMessage] = useState<boolean>(false)
   const [cookies, setCookie, removeCookie] = useCookies(['username']);
 
+  useEffect(()=>{
+    removeCookie('username')
+  },[])
+
   function handleSubmit(event: React.FormEvent): void {
     event.preventDefault()
+    setCookie("username", user.username, { path: '/' });
     console.log(user)
     if (!type) {
       setType(type => !type)
       return
     }
 
-    axios.post("http://localhost:8080/users/add", {
+    axios.post("http://localhost:8000/users/add", {
       "username": user.username,
       "password": user.password,
-      "phone": user.phone
+      "mobile": user.mobile
     })
       .then(_ => {
         Router.push("/dashboard")
@@ -44,7 +49,7 @@ const Form: FunctionComponent = () => {
       setType(type => !type)
       return
     }
-    axios.post("http://localhost:8080/users/login", {
+    axios.post("http://localhost:8000/users/login", {
       "username": user.username,
       "password": user.password
     })

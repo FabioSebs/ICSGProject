@@ -37,22 +37,20 @@ func (c *Crud) GetUsers() (UserList, error) {
 	if err != nil {
 		return UserList{}, err
 	}
-
 	for rows.Next() {
 		var user model.User
-		err := rows.Scan(&user.Id, &user.Username, &user.Password, &user.Phone)
+		err := rows.Scan(&user.Id, &user.Username, &user.Password, &user.Mobile)
 		if err != nil {
 			return UserList{}, err
 		}
 		userList.List = append(userList.List, user)
 	}
-
 	return userList, nil
 }
 
 func (c *Crud) LoginUser() error {
 	var user model.User
-	if err := c.DB.QueryRow(GetSingleUser, c.Model.Username).Scan(&user.Id, &user.Username, &user.Password, &user.Phone); err != nil {
+	if err := c.DB.QueryRow(GetSingleUser, c.Model.Username).Scan(&user.Id, &user.Username, &user.Password, &user.Mobile); err != nil {
 		return err
 	}
 	if c.Model.Password != user.Password {
@@ -63,7 +61,7 @@ func (c *Crud) LoginUser() error {
 
 func (c *Crud) AddUser() (model.User, error) {
 	fmt.Println(c.Model)
-	_, err := c.DB.Exec(AddUserQuery, c.Model.Username, c.Model.Password, c.Model.Phone)
+	_, err := c.DB.Exec(AddUserQuery, c.Model.Username, c.Model.Password, c.Model.Mobile)
 	if err != nil {
 		return model.User{}, err
 	}
@@ -80,7 +78,7 @@ func (c *Crud) DeleteUser() error {
 
 func (c *Crud) ModifyUser(username string) error {
 	var user model.User
-	if err := c.DB.QueryRow(GetSingleUser, username).Scan(&user.Id, &user.Username, &user.Password, &user.Phone); err != nil {
+	if err := c.DB.QueryRow(GetSingleUser, username).Scan(&user.Id, &user.Username, &user.Password, &user.Mobile); err != nil {
 		return err
 	}
 
@@ -90,11 +88,11 @@ func (c *Crud) ModifyUser(username string) error {
 	if c.Model.Password == "" {
 		c.Model.Password = user.Password
 	}
-	if c.Model.Phone == "" {
-		c.Model.Phone = user.Phone
+	if c.Model.Mobile == "" {
+		c.Model.Mobile = user.Mobile
 	}
 
-	_, err := c.DB.Exec(ModifyUserQuery, c.Model.Username, c.Model.Password, c.Model.Phone, user.Id)
+	_, err := c.DB.Exec(ModifyUserQuery, c.Model.Username, c.Model.Password, c.Model.Mobile, user.Id)
 	if err != nil {
 		return err
 	}
@@ -103,7 +101,7 @@ func (c *Crud) ModifyUser(username string) error {
 }
 
 func (c *Crud) ModifyOnlyPhone(username string) error {
-	_, err := c.DB.Exec(ModifyOnlyPhoneQuery, c.Model.Phone, username)
+	_, err := c.DB.Exec(ModifyOnlyPhoneQuery, c.Model.Mobile, username)
 	if err != nil {
 		return err
 	}

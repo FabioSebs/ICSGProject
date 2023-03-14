@@ -4,7 +4,7 @@ export interface User {
     admin: boolean
     username: string
     password: string
-    phone: string
+    mobile: string
 }
 
 export interface UserReduxState {
@@ -15,7 +15,7 @@ const userState : UserReduxState = {
     value: {
         username: "",
         password: "",
-        phone: "",
+        mobile: "",
         admin: false
     }
 }
@@ -34,7 +34,7 @@ export const userSlice = createSlice({
         },
         // Add Phone
         addPhone(state : UserReduxState = userState, action : PayloadAction<any>){
-            state.value = {...state.value, phone: action.payload}
+            state.value = {...state.value, mobile: action.payload}
         },
         // Add Admin
         addAdmin(state: UserReduxState = userState, action: PayloadAction<any>){

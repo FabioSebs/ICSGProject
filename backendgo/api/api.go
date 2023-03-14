@@ -28,7 +28,7 @@ func CreateRoutes(rg *gin.RouterGroup) error {
 	routes.POST("/login", handlers.LOGINUser)
 	routes.DELETE("/delete", handlers.DELETEUser)
 	routes.PATCH("/update/user/", handlers.MODIFYUser)
-	routes.PATCH("/update/phone/:username", handlers.MODIFYPhone)
+	routes.PATCH("/update/mobile/:username", handlers.MODIFYPhone)
 
 	return nil
 }
