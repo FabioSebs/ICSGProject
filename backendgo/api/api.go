@@ -5,9 +5,12 @@ import (
 	"github.com/FabioSebs/ICSGProject/tree/main/backendgo/controllers"
 	"github.com/FabioSebs/ICSGProject/tree/main/backendgo/crud"
 	"github.com/FabioSebs/ICSGProject/tree/main/backendgo/database"
+	_ "github.com/FabioSebs/ICSGProject/tree/main/backendgo/docs"
 	"github.com/FabioSebs/ICSGProject/tree/main/backendgo/model"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func CreateRoutes(rg *gin.RouterGroup) error {
@@ -23,6 +26,7 @@ func CreateRoutes(rg *gin.RouterGroup) error {
 	// Routes + Handlers
 	routes := rg.Group("/users")
 
+	routes.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	routes.GET("/all", handlers.GETAllUsers)
 	routes.POST("/add", handlers.POSTUser)
 	routes.POST("/login", handlers.LOGINUser)

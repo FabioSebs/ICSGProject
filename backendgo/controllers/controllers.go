@@ -14,7 +14,6 @@ import (
 // routes.DELETE("/delete", handlers.DELETEUser())
 // routes.PATCH("/modify/user/:username", handlers.MODIFYUser())
 // routes.PATCH("/modify/phone/:username", handlers.MODIFYPhone())
-
 type ControllersInterface interface {
 	GETAllUsers(ctx *gin.Context)
 	POSTUser(ctx *gin.Context)
@@ -34,6 +33,16 @@ func NewController(crud crud.Crud) Controllers {
 	}
 }
 
+// @BasePath /users
+
+// Get All Users godoc
+// @Summary Get All Users
+// @Schemes
+// @Description Get all users from Database
+// @Tags Read
+// @Accept json
+// @Produce json
+// @Router /users/all [get]
 func (c *Controllers) GETAllUsers(ctx *gin.Context) {
 	users, err := c.Crud.GetUsers()
 	if err != nil {
@@ -43,6 +52,14 @@ func (c *Controllers) GETAllUsers(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, users.List)
 }
 
+// @Summary Post User
+// @Tags Create
+// @Produce  json
+// @Param username path string true "username"
+// @Param password path string true "password"
+// @Param mobile path string true "mobile"
+// @Success 200 {string} success
+// @Router /users/add [post]
 func (c *Controllers) POSTUser(ctx *gin.Context) {
 	var newUser model.User
 
@@ -59,6 +76,12 @@ func (c *Controllers) POSTUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, user)
 }
 
+// @Summary Delete User
+// @Tags Delete
+// @Produce  json
+// @Param username path string true "username"
+// @Success 200 {string} success
+// @Router /users/delete [delete]
 func (c *Controllers) DELETEUser(ctx *gin.Context) {
 	var newUser model.User
 	if err := ctx.BindJSON(&newUser); err != nil {
@@ -73,6 +96,13 @@ func (c *Controllers) DELETEUser(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+// @Summary Update Phone
+// @Tags Update
+// @Produce  json
+// @Param mobile path string true "mobile"
+// @Success 200 {string} success
+// @Router /users/update/mobile/{username} [patch]
 func (c *Controllers) MODIFYPhone(ctx *gin.Context) {
 	var newUser model.User
 	username := ctx.Param("username")
@@ -89,6 +119,16 @@ func (c *Controllers) MODIFYPhone(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+// @Summary Update User
+// @Tags Update
+// @Produce  json
+// @Param original path string true "original"
+// @Param username path string true "username"
+// @Param password path string true "password"
+// @Param mobile path string true "mobile"
+// @Success 200 {string} success
+// @Router /users/update/user [patch]
 func (c *Controllers) MODIFYUser(ctx *gin.Context) {
 	type modifyUser struct {
 		Original string `json:"original"`
@@ -113,6 +153,13 @@ func (c *Controllers) MODIFYUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
+// @Summary Login User
+// @Tags Create
+// @Produce  json
+// @Param username path string true "username"
+// @Param password path string true "password"
+// @Success 200 {string} success
+// @Router /users/login [post]
 func (c *Controllers) LOGINUser(ctx *gin.Context) {
 	var newUser model.User
 

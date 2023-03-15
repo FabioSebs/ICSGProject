@@ -1,0 +1,135 @@
+info:
+  contact: {}
+paths:
+  /users/add:
+    post:
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: path
+        name: password
+        required: true
+        type: string
+      - description: mobile
+        in: path
+        name: mobile
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Post User
+      tags:
+      - Create
+  /users/all:
+    get:
+      consumes:
+      - application/json
+      description: Get all users from Database
+      produces:
+      - application/json
+      responses: {}
+      summary: Get All Users
+      tags:
+      - Read
+  /users/delete:
+    delete:
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Delete User
+      tags:
+      - Delete
+  /users/login:
+    post:
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: path
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Login User
+      tags:
+      - Create
+  /users/update/mobile/{username}:
+    patch:
+      parameters:
+      - description: mobile
+        in: path
+        name: mobile
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update Phone
+      tags:
+      - Update
+  /users/update/user:
+    patch:
+      parameters:
+      - description: original
+        in: path
+        name: original
+        required: true
+        type: string
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: password
+        in: path
+        name: password
+        required: true
+        type: string
+      - description: mobile
+        in: path
+        name: mobile
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Update User
+      tags:
+      - Update
+swagger: "2.0"
